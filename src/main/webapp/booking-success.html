@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Successful – RailBook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Demo Notice -->
+    <div class="demo-disclaimer-bar">
+        <i class="fas fa-graduation-cap me-2"></i>
+        <span>College Project / Demo Notice: This application is a student project/demo. Use dummy identity documents only.</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-railbook sticky-top">
+        <div class="container">
+            <a class="navbar-brand-logo" href="index.html">
+                <div class="brand-icon-box"><i class="fas fa-train"></i></div>
+                <div class="brand-title-wrap">
+                    <h1>RailBook</h1>
+                    <p>Book Your Journey. Travel Securely.</p>
+                </div>
+            </a>
+            <div id="navbarAuthButtons"></div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden max-w-700 mx-auto" style="max-width: 680px;">
+            <div class="card-header bg-success text-white py-4 text-center">
+                <i class="fas fa-check-circle fa-4x mb-2 text-white"></i>
+                <h3 class="fw-bold mb-0">Booking Successful!</h3>
+                <p class="mb-0 text-white-50">Your ticket has been confirmed in the Railway reservation system.</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5 bg-white">
+                <!-- Senior Citizen Notice if applied -->
+                <div id="successSeniorAlertBox" class="alert-senior-citizen mb-4 d-none">
+                    <i class="fas fa-wheelchair fa-lg text-primary"></i>
+                    <span id="successSeniorAlertText">Lower berth has been automatically preferred for Senior Citizen.</span>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mb-4">
+                    <div class="row g-3 text-center">
+                        <div class="col-6 border-end">
+                            <span class="text-muted small text-uppercase fw-bold">PNR Number</span>
+                            <h4 class="font-monospace text-primary fw-bold mb-0" id="successPnr">4567891234</h4>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-muted small text-uppercase fw-bold">Booking ID</span>
+                            <h4 class="font-monospace text-dark fw-bold mb-0" id="successBookingId">RB20261029001</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Reservation Status:</span>
+                    <span class="badge-confirmed" id="successStatus">CONFIRMED</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Total Paid Fare:</span>
+                    <span class="fw-bold text-dark fs-5" id="successFare">₹600.00</span>
+                </div>
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="text-muted">Journey Route:</span>
+                    <span class="fw-semibold text-dark" id="successRoute">Chennai Central ➔ Karaikal</span>
+                </div>
+
+                <!-- QR Preview Area -->
+                <div class="ticket-qr-area mb-4">
+                    <h6 class="fw-bold text-primary mb-2">
+                        <i class="fas fa-qrcode me-1"></i> Secure QR Verification Token Generated
+                    </h6>
+                    <img id="successQrImg" src="" alt="Ticket QR" class="ticket-qr-img">
+                    <p class="small text-muted mb-0">
+                        <i class="fas fa-shield-alt text-success me-1"></i> QR contains only cryptographic verification token. No Aadhaar or confidential data embedded.
+                    </p>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="#" id="btnViewDigitalTicket" class="btn btn-primary py-3 rounded-pill fw-bold text-uppercase shadow-sm">
+                        <i class="fas fa-ticket-alt me-2"></i> View Digital Ticket
+                    </a>
+                    <a href="index.html" class="btn btn-outline-secondary py-2 rounded-pill">
+                        <i class="fas fa-home me-1"></i> Return to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pnr = urlParams.get('pnr');
+
+            const latestBooking = sessionStorage.getItem('latest_booking');
+            if (latestBooking) {
+                const data = JSON.parse(latestBooking);
+                document.getElementById('successPnr').textContent = data.pnr;
+                document.getElementById('successBookingId').textContent = data.bookingId;
+                document.getElementById('successStatus').textContent = data.status || 'CONFIRMED';
+                document.getElementById('successFare').textContent = formatINR(data.totalFare);
+                document.getElementById('successRoute').textContent = `${data.source} ➔ ${data.destination}`;
+                document.getElementById('successQrImg').src = data.qrCodeBase64;
+                document.getElementById('btnViewDigitalTicket').href = `digital-ticket.html?pnr=${data.pnr}`;
+
+                if (data.seniorCitizenAlerts && data.seniorCitizenAlerts.length > 0) {
+                    const box = document.getElementById('successSeniorAlertBox');
+                    document.getElementById('successSeniorAlertText').textContent = data.seniorCitizenAlerts.join(' | ');
+                    box.classList.remove('d-none');
+                }
+            } else if (pnr) {
+                document.getElementById('btnViewDigitalTicket').href = `digital-ticket.html?pnr=${pnr}`;
+                document.getElementById('successPnr').textContent = pnr;
+            }
+        });
+    </script>
+</body>
+</html>

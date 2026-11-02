@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Railway Ticket – RailBook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Demo Notice -->
+    <div class="demo-disclaimer-bar no-print">
+        <i class="fas fa-graduation-cap me-2"></i>
+        <span>College Project / Demo Notice: This application is a student project/demo. Use dummy identity documents only.</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-railbook sticky-top no-print">
+        <div class="container">
+            <a class="navbar-brand-logo" href="index.html">
+                <div class="brand-icon-box"><i class="fas fa-train"></i></div>
+                <div class="brand-title-wrap">
+                    <h1>RailBook</h1>
+                    <p>Book Your Journey. Travel Securely.</p>
+                </div>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="my-bookings.html" class="btn btn-outline-secondary btn-sm rounded-pill"><i class="fas fa-list me-1"></i> My Bookings</a>
+                <div id="navbarAuthButtons"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ticket Actions Header -->
+    <div class="container py-4 no-print">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+                <h4 class="fw-bold text-primary mb-0"><i class="fas fa-ticket-alt me-2"></i> Digital Electronic Reservation Slip (e-Ticket)</h4>
+                <p class="text-muted small mb-0">Present this digital ticket along with valid government photo ID during journey.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Print Ticket
+                </button>
+                <button type="button" class="btn btn-primary btn-sm rounded-pill px-3" onclick="showQrModal()">
+                    <i class="fas fa-qrcode me-1"></i> View Full QR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Ticket Card Container -->
+    <div class="container pb-5">
+        <div class="digital-ticket-container shadow" id="digitalTicketPrintArea">
+            <!-- Ticket Top Header -->
+            <div class="ticket-header">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-white text-primary p-2 rounded-3 fs-3">
+                        <i class="fas fa-train"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0 fw-extrabold text-white">RailBook Electronic Ticket</h4>
+                        <small class="text-white-50">Standard Passenger Reservation System</small>
+                    </div>
+                </div>
+                <div class="ticket-pnr-box">
+                    <small class="text-white-50 d-block text-uppercase fw-bold">PNR Number</small>
+                    <span class="ticket-pnr-value" id="ticketPnr">4567891234</span>
+                </div>
+            </div>
+
+            <!-- Route and Time Banner -->
+            <div class="ticket-route-strip">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <small class="text-muted text-uppercase fw-bold">Origin Station</small>
+                        <div class="ticket-station-name" id="ticketSource">Chennai Central</div>
+                        <div class="ticket-time" id="ticketDeparture">06:15 AM</div>
+                    </div>
+                    <div class="col-md-2 text-center my-3 my-md-0">
+                        <div class="badge bg-primary px-3 py-2 rounded-pill small">
+                            <span id="ticketDuration">7h 30m</span>
+                        </div>
+                        <div class="text-muted small mt-1"><i class="fas fa-train-subway"></i> Direct</div>
+                    </div>
+                    <div class="col-md-5 text-md-end">
+                        <small class="text-muted text-uppercase fw-bold">Destination Station</small>
+                        <div class="ticket-station-name" id="ticketDestination">Karaikal</div>
+                        <div class="ticket-time" id="ticketArrival">01:45 PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Train & Booking Meta Grid -->
+            <div class="p-4 bg-light border-bottom">
+                <div class="row g-3">
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted text-uppercase fw-bold d-block">Train Number & Name</small>
+                        <strong class="text-dark" id="ticketTrainInfo">12601 - Sample Express</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted text-uppercase fw-bold d-block">Date of Journey</small>
+                        <strong class="text-dark" id="ticketDate">30 Oct 2026</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted text-uppercase fw-bold d-block">Class & Quota</small>
+                        <strong class="text-dark" id="ticketClassQuota">Sleeper (Tatkal)</strong>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted text-uppercase fw-bold d-block">Booking ID / Fare</small>
+                        <strong class="text-primary font-monospace" id="ticketBookingId">RB20261029001</strong>
+                        <div class="small fw-bold text-success" id="ticketFare">₹600.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passenger Details Table -->
+            <div class="ticket-body-grid">
+                <h6 class="fw-bold text-primary mb-3">
+                    <i class="fas fa-users me-2"></i> Passenger Details
+                </h6>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Passenger Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Coach</th>
+                                <th>Seat / Berth</th>
+                                <th>Berth Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketPassengersBody">
+                            <tr>
+                                <td colspan="8" class="text-center py-3 text-muted">Loading passenger records...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- QR Code Verification Section -->
+                <div class="ticket-qr-area">
+                    <h5 class="fw-bold text-primary mb-1">Scan QR for Ticket Verification</h5>
+                    <p class="text-muted small mb-3">
+                        This tamper-proof QR code is scanned by the TTR (Travelling Ticket Examiner) to verify passenger authorization.
+                    </p>
+
+                    <img id="ticketQrImage" src="" alt="Ticket Verification QR" class="ticket-qr-img">
+
+                    <div class="small text-muted font-monospace mt-2" id="ticketQrTokenText">
+                        Token: RB-SECURE-4567891234-••••••••
+                    </div>
+
+                    <div class="mt-3 p-2 bg-white rounded border d-inline-block small text-success">
+                        <i class="fas fa-lock me-1"></i> Privacy Protected: Full Aadhaar is NOT embedded in this QR code.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket Footer Notes -->
+            <div class="card-footer bg-light p-3 small text-muted text-center border-top">
+                College Project / Student Demonstration • RailBook System • Not valid for actual Indian Railways travel.
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4 text-center p-4">
+                <h5 class="fw-bold text-primary mb-2">Ticket QR Code</h5>
+                <p class="text-muted small mb-3">Show this QR to the TTR for journey verification.</p>
+                <div class="p-3 bg-light rounded-3 d-inline-block mx-auto mb-3">
+                    <img id="modalQrImg" src="" alt="Large QR" style="width: 260px; height: 260px;">
+                </div>
+                <div class="font-monospace text-muted small" id="modalTokenText"></div>
+                <button type="button" class="btn btn-secondary rounded-pill mt-3" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        async function loadDigitalTicket() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pnr = urlParams.get('pnr') || '4567891234';
+
+            try {
+                const res = await fetch(`${API_BASE}/bookings/${pnr}`);
+                if (!res.ok) throw new Error('Ticket not found');
+                const b = await res.json();
+
+                document.getElementById('ticketPnr').textContent = b.pnr;
+                document.getElementById('ticketSource').textContent = b.source;
+                document.getElementById('ticketDestination').textContent = b.destination;
+                document.getElementById('ticketDeparture').textContent = b.departure_time || '06:15 AM';
+                document.getElementById('ticketArrival').textContent = b.arrival_time || '01:45 PM';
+                document.getElementById('ticketTrainInfo').textContent = `${b.train_number} - ${b.train_name}`;
+                document.getElementById('ticketDate').textContent = new Date(b.journey_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+                document.getElementById('ticketClassQuota').textContent = `${b.travel_class} (${b.quota})`;
+                document.getElementById('ticketBookingId').textContent = b.booking_id;
+                document.getElementById('ticketFare').textContent = formatINR(b.fare);
+
+                // Passengers table
+                const tbody = document.getElementById('ticketPassengersBody');
+                if (b.passengers && b.passengers.length > 0) {
+                    tbody.innerHTML = b.passengers.map((p, idx) => `
+                        <tr>
+                            <td>${idx + 1}</td>
+                            <td class="fw-bold">${p.name} ${p.is_senior_citizen ? '<span class="badge bg-info-subtle text-info border">Senior (60+)</span>' : ''}</td>
+                            <td>${p.age}</td>
+                            <td>${p.gender}</td>
+                            <td><strong class="text-primary">${p.coach}</strong></td>
+                            <td><strong class="text-dark">${p.seat}</strong></td>
+                            <td><span class="badge bg-light text-dark border">${p.berth_preference || 'Lower'}</span></td>
+                            <td><span class="badge ${b.status === 'CONFIRMED' ? 'badge-confirmed' : (b.status === 'WAITING LIST' ? 'badge-waiting' : 'badge-not-selected')}">${b.status}</span></td>
+                        </tr>
+                    `).join('');
+                }
+
+                // QR Code
+                if (b.qrCodeBase64) {
+                    document.getElementById('ticketQrImage').src = b.qrCodeBase64;
+                    document.getElementById('modalQrImg').src = b.qrCodeBase64;
+                }
+                if (b.qrVerification) {
+                    document.getElementById('ticketQrTokenText').textContent = `Token: ${b.qrVerification.raw_token.slice(0, 18)}••••••••`;
+                    document.getElementById('modalTokenText').textContent = b.qrVerification.raw_token;
+                }
+
+            } catch (e) {
+                console.error(e);
+                showToast('Unable to load ticket details', 'error');
+            }
+        }
+
+        function showQrModal() {
+            const modal = new bootstrap.Modal(document.getElementById('qrModal'));
+            modal.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDigitalTicket);
+    </script>
+</body>
+</html>

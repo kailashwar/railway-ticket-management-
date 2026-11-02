@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>RailBook - Railway Ticket Management System</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- Session Configuration -->
+    <session-config>
+        <session-timeout>60</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>false</secure> <!-- set to true in production HTTPS -->
+        </cookie-config>
+    </session-config>
+
+    <!-- Security & CORS Headers Filter -->
+    <filter>
+        <filter-name>SecurityHeadersFilter</filter-name>
+        <filter-class>com.railbook.filter.SecurityHeadersFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityHeadersFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Authentication & Role Authorization Filter -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.railbook.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/api/admin/*</url-pattern>
+        <url-pattern>/api/ttr/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>com.railbook.controller.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/api/auth/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TrainServlet</servlet-name>
+        <servlet-class>com.railbook.controller.TrainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TrainServlet</servlet-name>
+        <url-pattern>/api/trains/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BookingServlet</servlet-name>
+        <servlet-class>com.railbook.controller.BookingServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>5242880</max-file-size> <!-- 5 MB -->
+            <max-request-size>10485760</max-request-size> <!-- 10 MB -->
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookingServlet</servlet-name>
+        <url-pattern>/api/bookings/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>com.railbook.controller.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/api/admin/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TTRServlet</servlet-name>
+        <servlet-class>com.railbook.controller.TTRServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TTRServlet</servlet-name>
+        <url-pattern>/api/ttr/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PNRServlet</servlet-name>
+        <servlet-class>com.railbook.controller.PNRServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PNRServlet</servlet-name>
+        <url-pattern>/api/pnr/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>IdentityDocumentServlet</servlet-name>
+        <servlet-class>com.railbook.controller.IdentityDocumentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IdentityDocumentServlet</servlet-name>
+        <url-pattern>/api/documents/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

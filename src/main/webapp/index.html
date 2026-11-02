@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailBook – Railway Ticket Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Demo Notice Banner -->
+    <div class="demo-disclaimer-bar">
+        <i class="fas fa-graduation-cap me-2"></i>
+        <span>College Project / Demo Notice: This application is a student project/demo. Use dummy identity documents only. It is not an official railway booking service.</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-railbook sticky-top">
+        <div class="container">
+            <a class="navbar-brand-logo" href="index.html">
+                <div class="brand-icon-box">
+                    <i class="fas fa-train"></i>
+                </div>
+                <div class="brand-title-wrap">
+                    <h1>RailBook</h1>
+                    <p>Book Your Journey. Travel Securely.</p>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#railbookNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="railbookNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-rb active" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-rb" href="search-results.html"><i class="fas fa-search me-1"></i> Search Trains</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-rb" href="my-bookings.html"><i class="fas fa-ticket-alt me-1"></i> My Bookings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-rb" href="pnr-status.html"><i class="fas fa-info-circle me-1"></i> PNR Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-rb" href="digital-ticket.html?pnr=4567891234"><i class="fas fa-qrcode me-1"></i> Digital Ticket</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center" id="navbarAuthButtons">
+                    <!-- Populated dynamically via main.js -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero & Search Train Section -->
+    <section class="hero-booking-wrap">
+        <div class="container hero-content">
+            <div class="row align-items-center justify-content-between mb-4">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">
+                        <i class="fas fa-bolt me-1"></i> Tatkal & General Reservations
+                    </span>
+                    <h2 class="display-5 fw-extrabold text-white mb-3" style="letter-spacing: -1px;">
+                        Fast, Secure & Seamless Train Ticket Booking
+                    </h2>
+                    <p class="lead text-light opacity-90 mb-4">
+                        Experience next-generation railway reservations with intelligent senior citizen berth allocation, privacy-preserving identity verification, and tamper-proof digital QR tickets.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="d-flex align-items-center text-white small gap-2">
+                            <i class="fas fa-shield-alt text-warning fa-lg"></i>
+                            <span>Masked Privacy Protection</span>
+                        </div>
+                        <div class="d-flex align-items-center text-white small gap-2">
+                            <i class="fas fa-wheelchair text-warning fa-lg"></i>
+                            <span>Age 60+ Lower Berth Logic</span>
+                        </div>
+                        <div class="d-flex align-items-center text-white small gap-2">
+                            <i class="fas fa-qrcode text-warning fa-lg"></i>
+                            <span>Secure TTR QR Scanner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Booking Search Box -->
+                <div class="col-lg-5">
+                    <div class="search-card-container">
+                        <div class="search-title-tab">
+                            <h5 class="fw-bold mb-0 text-primary">
+                                <i class="fas fa-search-location me-2 text-secondary"></i> Search Train
+                            </h5>
+                            <span class="badge bg-primary-subtle text-primary border">RailBook Engine</span>
+                        </div>
+
+                        <form id="heroTrainSearchForm" action="search-results.html" method="GET">
+                            <div class="mb-3">
+                                <label class="form-label-custom">From Station</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-map-marker-alt text-danger"></i></span>
+                                    <input type="text" class="form-control form-control-rb border-start-0" id="searchFrom" name="from" placeholder="e.g. Chennai Central" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-custom">To Station</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-location-arrow text-success"></i></span>
+                                    <input type="text" class="form-control form-control-rb border-start-0" id="searchTo" name="to" placeholder="e.g. Karaikal" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Journey Date</label>
+                                    <input type="date" class="form-control form-control-rb" id="searchDate" name="date" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Quota</label>
+                                    <select class="form-select form-control-rb" id="searchQuota" name="quota">
+                                        <option value="General" selected>General</option>
+                                        <option value="Tatkal">Tatkal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label-custom">Class</label>
+                                <select class="form-select form-control-rb" id="searchClass" name="class">
+                                    <option value="All Classes" selected>All Classes</option>
+                                    <option value="Sleeper">Sleeper (SL)</option>
+                                    <option value="AC 3 Tier">AC 3 Tier (3A)</option>
+                                    <option value="AC 2 Tier">AC 2 Tier (2A)</option>
+                                    <option value="AC First Class">AC First Class (1A)</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold text-uppercase shadow-sm">
+                                <i class="fas fa-train me-2"></i> Search Trains
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three Server Gateways for Demo -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="badge bg-secondary-subtle text-secondary px-3 py-1 rounded-pill fw-bold text-uppercase">Role-Based Ecosystem</span>
+                <h3 class="fw-bold text-primary mt-2">Explore the Three System Interfaces</h3>
+                <p class="text-muted">Live demonstration of Passenger, Admin, and TTR Verification roles communicating with the same database.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Passenger Gateway -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center hover-elevate">
+                        <div class="mx-auto mb-3 stat-icon bg-primary-subtle text-primary">
+                            <i class="fas fa-user-friends fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">Passenger Portal</h5>
+                        <p class="text-muted small">Search trains, book Tatkal tickets, automatic lower berth preference for age 60+, dummy Aadhaar upload, and instant digital tickets.</p>
+                        <div class="mt-auto pt-3">
+                            <a href="search-results.html" class="btn btn-outline-primary rounded-pill px-4 btn-sm fw-semibold">
+                                Search & Book <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Gateway -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center hover-elevate border-top border-4 border-warning">
+                        <div class="mx-auto mb-3 stat-icon bg-warning-subtle text-warning">
+                            <i class="fas fa-user-shield fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">Admin Portal</h5>
+                        <p class="text-muted small">Manage bookings, review masked Aadhaar records, and execute ticket decisions: <strong>CONFIRM TICKET</strong>, <strong>WAITING LIST</strong>, or <strong>NOT SELECTED</strong>.</p>
+                        <div class="mt-auto pt-3">
+                            <a href="login.html?role=admin" class="btn btn-warning rounded-pill px-4 btn-sm fw-bold">
+                                Admin Dashboard <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TTR Gateway -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center hover-elevate border-top border-4 border-success">
+                        <div class="mx-auto mb-3 stat-icon bg-success-subtle text-success">
+                            <i class="fas fa-qrcode fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">TTR Officer Portal</h5>
+                        <p class="text-muted small">Real-time mobile camera scanner, secure cryptographic token validation, masked identity inspection, and tamper-proof verification audit logging.</p>
+                        <div class="mt-auto pt-3">
+                            <a href="login.html?role=ttr" class="btn btn-success rounded-pill px-4 btn-sm fw-bold">
+                                TTR QR Scanner <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-auto bg-dark text-white py-4 border-top">
+        <div class="container text-center text-md-start">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5 class="fw-bold mb-1"><i class="fas fa-train text-warning me-2"></i>RailBook System</h5>
+                    <p class="text-muted small mb-0">College Project Demonstration. Built with Jakarta Servlets MVC, MySQL, Bootstrap 5 & BCrypt.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="login.html?role=admin" class="text-white-50 text-decoration-none small me-3"><i class="fas fa-lock me-1"></i>Admin</a>
+                    <a href="login.html?role=ttr" class="text-white-50 text-decoration-none small me-3"><i class="fas fa-qrcode me-1"></i>TTR Officer</a>
+                    <a href="pnr-status.html" class="text-white-50 text-decoration-none small"><i class="fas fa-search me-1"></i>PNR Check</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('searchDate').value = today;
+            document.getElementById('searchDate').min = today;
+        });
+    </script>
+</body>
+</html>

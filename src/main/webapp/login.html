@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – RailBook Railway Reservation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Demo Notice -->
+    <div class="demo-disclaimer-bar">
+        <i class="fas fa-graduation-cap me-2"></i>
+        <span>College Project / Demo Notice: This application is a student project/demo. Use dummy identity documents only.</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-railbook sticky-top">
+        <div class="container">
+            <a class="navbar-brand-logo" href="index.html">
+                <div class="brand-icon-box"><i class="fas fa-train"></i></div>
+                <div class="brand-title-wrap">
+                    <h1>RailBook</h1>
+                    <p>Book Your Journey. Travel Securely.</p>
+                </div>
+            </a>
+            <a href="index.html" class="btn btn-outline-secondary btn-sm rounded-pill"><i class="fas fa-home me-1"></i> Home</a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white mx-auto" style="max-width: 500px;" id="unifiedLoginCard">
+            
+            <!-- Dynamic Role Header -->
+            <div class="text-center mb-4">
+                <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-3" id="loginHeaderIcon">
+                    <i class="fas fa-user-lock fa-2x"></i>
+                </div>
+                <h3 class="fw-bold text-primary mb-1" id="loginHeaderTitle">Passenger Login</h3>
+                <p class="text-muted small mb-0" id="loginHeaderSubtitle">Access your train bookings, e-tickets, and PNR details.</p>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- 1. MAIN DISPLAY: PASSENGER LOGIN FORM                         -->
+            <!-- ============================================================== -->
+            <div id="passengerSection">
+                <form id="passengerLoginForm" onsubmit="handlePassengerLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label-custom">Email / Mobile Number *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-muted"></i></span>
+                            <input type="text" class="form-control form-control-rb border-start-0" id="loginIdentifier" placeholder="name@example.com or mobile" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label-custom mb-0">Password *</label>
+                            <a href="#" class="small text-muted text-decoration-none" onclick="alert('Demo Mode: Use password Pass@123 for the demo passenger account.'); return false;">Forgot Password?</a>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-muted"></i></span>
+                            <input type="password" class="form-control form-control-rb border-start-0" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mb-3 bg-light rounded-3 border small text-muted">
+                        <i class="fas fa-info-circle me-1 text-primary"></i> Enter your registered email/mobile and password to login.
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold text-uppercase shadow-sm mb-3" id="btnLoginSubmit">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </button>
+
+                    <div class="text-center mb-3">
+                        <span class="text-muted small">Don't have an account?</span>
+                        <a href="register.html" class="fw-bold text-primary small text-decoration-none">Create Account</a>
+                    </div>
+                </form>
+
+                <!-- REQUIREMENT: DIRECTLY BELOW PASSENGER LOGIN: ADMIN LOGIN BUTTON & SMALLER TTR LOGIN BUTTON -->
+                <div class="login-divider">
+                    <span>OTHER RAILWAY PORTALS</span>
+                </div>
+
+                <!-- Admin Login Button Directly Below -->
+                <div class="mb-2">
+                    <button type="button" class="btn btn-outline-warning w-100 py-2 rounded-pill fw-bold text-dark shadow-sm" id="btnAdminLoginTrigger" onclick="switchLoginMode('ADMIN')">
+                        <i class="fas fa-user-shield me-2 text-warning"></i> Admin Login
+                    </button>
+                </div>
+
+                <!-- Smaller TTR Login Button Followed Immediately -->
+                <div class="text-center mt-2">
+                    <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-4 py-1 fw-semibold shadow-sm" id="btnTtrLoginTrigger" onclick="switchLoginMode('TTR')">
+                        <i class="fas fa-qrcode me-1"></i> TTR Login
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- 2. IN-PLACE ADMIN LOGIN FORM (SAME PAGE, SAME LINK)            -->
+            <!-- ============================================================== -->
+            <div id="adminSection" class="d-none">
+                <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label-custom">Admin Email Address *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-muted"></i></span>
+                            <input type="email" class="form-control form-control-rb border-start-0" id="adminEmail" placeholder="admin@railbook.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Admin Password *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-key text-muted"></i></span>
+                            <input type="password" class="form-control form-control-rb border-start-0" id="adminPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mb-3 bg-light rounded-3 border small text-muted">
+                        <i class="fas fa-lock text-warning me-1"></i> Enter your admin email and password to access the admin portal.
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 py-3 rounded-pill fw-bold text-dark text-uppercase shadow-sm mb-3" id="btnAdminSubmit">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login as Administrator
+                    </button>
+                </form>
+
+                <div class="login-divider">
+                    <span>SWITCH LOGIN ROLE</span>
+                </div>
+
+                <div class="d-flex flex-column gap-2 text-center">
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill py-2 fw-bold" onclick="switchLoginMode('PASSENGER')">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Passenger Login
+                    </button>
+                    <div>
+                        <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-4 py-1 fw-semibold shadow-sm" onclick="switchLoginMode('TTR')">
+                            <i class="fas fa-qrcode me-1"></i> TTR Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- 3. IN-PLACE TTR LOGIN FORM (SAME PAGE, SAME LINK)              -->
+            <!-- ============================================================== -->
+            <div id="ttrSection" class="d-none">
+                <form id="ttrLoginForm" onsubmit="handleTTRLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label-custom">TTR Officer ID / Username *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-id-badge text-muted"></i></span>
+                            <input type="text" class="form-control form-control-rb border-start-0" id="ttrIdInput" placeholder="e.g. ttr_officer" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label-custom">Officer Password *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-shield-alt text-muted"></i></span>
+                            <input type="password" class="form-control form-control-rb border-start-0" id="ttrPasswordInput" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <div class="p-2 mb-3 bg-light rounded-3 border small text-muted">
+                        <i class="fas fa-user-check text-success me-1"></i> Pre-filled with TTR credentials (<code>ttr_officer</code> / <code>TTR@123</code>).
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-3 rounded-pill fw-bold text-white text-uppercase shadow-sm mb-3" id="btnTtrSubmit">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login to TTR Terminal
+                    </button>
+                </form>
+
+                <div class="login-divider">
+                    <span>SWITCH LOGIN ROLE</span>
+                </div>
+
+                <div class="d-flex flex-column gap-2 text-center">
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill py-2 fw-bold" onclick="switchLoginMode('PASSENGER')">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Passenger Login
+                    </button>
+                    <div>
+                        <button type="button" class="btn btn-outline-warning btn-sm rounded-pill px-4 py-1 fw-bold text-dark shadow-sm" onclick="switchLoginMode('ADMIN')">
+                            <i class="fas fa-user-shield me-1"></i> Admin Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // ==============================================================
+        // DYNAMIC ROLE SWITCHER (ALL ON THE EXACT SAME PAGE & SAME LINK)
+        // ==============================================================
+        function switchLoginMode(role) {
+            const passengerSec = document.getElementById('passengerSection');
+            const adminSec = document.getElementById('adminSection');
+            const ttrSec = document.getElementById('ttrSection');
+
+            const headerIcon = document.getElementById('loginHeaderIcon');
+            const headerTitle = document.getElementById('loginHeaderTitle');
+            const headerSubtitle = document.getElementById('loginHeaderSubtitle');
+            const card = document.getElementById('unifiedLoginCard');
+
+            // Hide all sections first
+            passengerSec.classList.add('d-none');
+            adminSec.classList.add('d-none');
+            ttrSec.classList.add('d-none');
+
+            // Remove special borders
+            card.classList.remove('border-top', 'border-4', 'border-primary', 'border-warning', 'border-success');
+
+            if (role === 'ADMIN') {
+                adminSec.classList.remove('d-none');
+                headerIcon.className = 'stat-icon bg-warning-subtle text-warning mx-auto mb-3';
+                headerIcon.innerHTML = '<i class="fas fa-user-shield fa-2x"></i>';
+                headerTitle.textContent = 'Administrator Login';
+                headerTitle.className = 'fw-bold text-dark mb-1';
+                headerSubtitle.textContent = 'Authorized Railway Operations & Ticket Decision Desk';
+                card.classList.add('border-top', 'border-4', 'border-warning');
+                history.replaceState(null, '', 'login.html?role=admin');
+            } else if (role === 'TTR') {
+                ttrSec.classList.remove('d-none');
+                headerIcon.className = 'stat-icon bg-success-subtle text-success mx-auto mb-3';
+                headerIcon.innerHTML = '<i class="fas fa-qrcode fa-2x"></i>';
+                headerTitle.textContent = 'TTR Officer Terminal Login';
+                headerTitle.className = 'fw-bold text-dark mb-1';
+                headerSubtitle.textContent = 'Travelling Ticket Examiner (TTR) Authorization & Inspection';
+                card.classList.add('border-top', 'border-4', 'border-success');
+                history.replaceState(null, '', 'login.html?role=ttr');
+            } else {
+                // Default: Passenger Login
+                passengerSec.classList.remove('d-none');
+                headerIcon.className = 'stat-icon bg-primary-subtle text-primary mx-auto mb-3';
+                headerIcon.innerHTML = '<i class="fas fa-user-lock fa-2x"></i>';
+                headerTitle.textContent = 'Passenger Login';
+                headerTitle.className = 'fw-bold text-primary mb-1';
+                headerSubtitle.textContent = 'Access your train bookings, e-tickets, and PNR details.';
+                card.classList.add('border-top', 'border-4', 'border-primary');
+                history.replaceState(null, '', 'login.html');
+            }
+        }
+
+        // ==============================================================
+        // 1. PASSENGER LOGIN HANDLER
+        // ==============================================================
+        async function handlePassengerLogin(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLoginSubmit');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Authenticating...';
+
+            try {
+                const res = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identifier, password })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    setCurrentUser(data.user);
+                    showToast('Login successful! Redirecting to dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'my-bookings.html';
+                    }, 800);
+                } else {
+                    showToast(data.error || 'Invalid credentials', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
+                }
+            } catch (err) {
+                showToast('Error connecting to authentication service', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
+            }
+        }
+
+        // ==============================================================
+        // 2. ADMIN LOGIN HANDLER
+        // ==============================================================
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const btn = document.getElementById('btnAdminSubmit');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Authorizing Admin...';
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    sessionStorage.setItem('railbook_admin', JSON.stringify(data));
+                    showToast('Admin authorized. Launching dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 800);
+                } else {
+                    showToast(data.error || 'Invalid Admin credentials', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login as Administrator';
+                }
+            } catch (err) {
+                showToast('Authentication server connection error', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login as Administrator';
+            }
+        }
+
+        // ==============================================================
+        // 3. TTR LOGIN HANDLER
+        // ==============================================================
+        async function handleTTRLogin(e) {
+            e.preventDefault();
+            const ttrId = document.getElementById('ttrIdInput').value.trim();
+            const password = document.getElementById('ttrPasswordInput').value;
+            const btn = document.getElementById('btnTtrSubmit');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Verifying Officer...';
+
+            try {
+                const res = await fetch(`${API_BASE}/ttr/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ttrId, password })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    sessionStorage.setItem('railbook_ttr', JSON.stringify(data.ttr));
+                    showToast('TTR authorized. Launching terminal...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'ttr-dashboard.html';
+                    }, 800);
+                } else {
+                    showToast(data.error || 'Invalid TTR credentials', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login to TTR Terminal';
+                }
+            } catch (err) {
+                showToast('Verification server connection error', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login to TTR Terminal';
+            }
+        }
+
+        // On Page Load: Check if a role was explicitly passed via query parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = (urlParams.get('role') || 'passenger').toUpperCase();
+            switchLoginMode(role);
+        });
+    </script>
+</body>
+</html>

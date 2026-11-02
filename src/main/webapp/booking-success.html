@@ -32,10 +32,10 @@
 
     <div class="container py-5">
         <div class="card border-0 shadow-lg rounded-4 overflow-hidden max-w-700 mx-auto" style="max-width: 680px;">
-            <div class="card-header bg-success text-white py-4 text-center">
+            <div class="card-header bg-primary text-white py-4 text-center">
                 <i class="fas fa-check-circle fa-4x mb-2 text-white"></i>
-                <h3 class="fw-bold mb-0">Booking Successful!</h3>
-                <p class="mb-0 text-white-50">Your ticket has been confirmed in the Railway reservation system.</p>
+                <h3 class="fw-bold mb-0">Booking Submitted Successfully!</h3>
+                <p class="mb-0 text-white-50">Your ticket has been submitted and is awaiting Admin confirmation.</p>
             </div>
 
             <div class="card-body p-4 p-md-5 bg-white">
@@ -60,7 +60,7 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Reservation Status:</span>
-                    <span class="badge-confirmed" id="successStatus">CONFIRMED</span>
+                    <span class="badge-waiting" id="successStatus">WAITING LIST</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Total Paid Fare:</span>
@@ -107,7 +107,10 @@
                 const data = JSON.parse(latestBooking);
                 document.getElementById('successPnr').textContent = data.pnr;
                 document.getElementById('successBookingId').textContent = data.bookingId;
-                document.getElementById('successStatus').textContent = data.status || 'CONFIRMED';
+                const status = data.status || 'WAITING LIST';
+                const statusBadge = document.getElementById('successStatus');
+                statusBadge.textContent = status;
+                statusBadge.className = status === 'CONFIRMED' ? 'badge-confirmed' : (status === 'WAITING LIST' ? 'badge-waiting' : 'badge-not-selected');
                 document.getElementById('successFare').textContent = formatINR(data.totalFare);
                 document.getElementById('successRoute').textContent = `${data.source} ➔ ${data.destination}`;
                 document.getElementById('successQrImg').src = data.qrCodeBase64;

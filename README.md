@@ -11,13 +11,15 @@
 
 ---
 
-## 👥 Three Specialized Role Portals
+## 👥 Three Specialized Role Portals (Unified Login)
 
-| Portal | Access URL | Default Credentials | Key Features |
+All three user roles are accessed directly from the **same single website link**: [http://localhost:3000/login.html](http://localhost:3000/login.html) with clean, non-prefilled credential fields.
+
+| Portal | Access URL | Test Credentials | Key Features |
 | :--- | :--- | :--- | :--- |
-| **Passenger Portal** | [http://localhost:3000](http://localhost:3000) | `demo@railbook.com`<br>`Pass@123` | Train Search (General/Tatkal), Dynamic Passenger Booking, **Age > 60 Lower Berth Auto-Allocation**, Demo Aadhaar Upload, PNR Generation, Digital Ticket & QR Slip. |
-| **Admin Portal** | [http://localhost:3000/admin-login.html](http://localhost:3000/admin-login.html) | `kailashwar24@gmail.com`<br>`Kailash@24` | 6 Metric Cards, Passenger Table with Masked Aadhaar (`XXXX XXXX 1234`), **3 Decision Buttons** (`CONFIRM TICKET`, `WAITING LIST`, `NOT SELECTED`), Train Inventory Management. |
-| **TTR Terminal** | [http://localhost:3000/ttr-login.html](http://localhost:3000/ttr-login.html) | `ttr_officer` (or `TTR-2026`)<br>`TTR@123` | Mobile-Optimized **QR Camera Scanner**, Manual Token Input, **Ticket Verification Engine**, Controlled Identity Document Inspection with Audit Logging. |
+| **Passenger Portal** | [http://localhost:3000/login.html](http://localhost:3000/login.html) | `demo@railbook.com`<br>`Pass@123` | Train Search (General/Tatkal), Dynamic Passenger Booking, **Age > 60 Lower Berth Auto-Allocation**, Demo Aadhaar Upload, PNR Generation, Digital Ticket & QR Slip. Tickets default to **WAITING LIST** until Admin confirmation. |
+| **Admin Portal** | [http://localhost:3000/login.html?role=admin](http://localhost:3000/login.html?role=admin) | `kailashwar24@gmail.com`<br>`Kailash@24` | 6 Metric Cards, Passenger Table with Masked Aadhaar (`XXXX XXXX 1234`), **3 Decision Buttons** (`CONFIRM TICKET`, `WAITING LIST`, `NOT SELECTED`), Train Inventory Management. |
+| **TTR Terminal** | [http://localhost:3000/login.html?role=ttr](http://localhost:3000/login.html?role=ttr) | `ttr_officer` (or `TTR-2026`)<br>`TTR@123` | Mobile-Optimized **QR Camera Scanner**, Manual Token Input, **Ticket Verification Engine**, Controlled Identity Document Inspection with Audit Logging. |
 
 ---
 

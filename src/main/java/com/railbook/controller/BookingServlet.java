@@ -188,7 +188,7 @@ public class BookingServlet extends HttpServlet {
             booking.setTravelClass(travelClass);
             booking.setQuota(quota);
             booking.setFare(totalFare);
-            booking.setStatus("CONFIRMED");
+            booking.setStatus("WAITING LIST");
 
             // Generate Secure QR Verification (contains ONLY verification token or URL, never Aadhaar!)
             QRVerification qr = QRService.createQRVerification(bookingId, pnr);
@@ -201,10 +201,10 @@ public class BookingServlet extends HttpServlet {
 
                 JsonObject responseObj = new JsonObject();
                 responseObj.addProperty("success", true);
-                responseObj.addProperty("message", "Booking Confirmed Successfully!");
+                responseObj.addProperty("message", "Booking Submitted! Awaiting Admin Confirmation.");
                 responseObj.addProperty("pnr", pnr);
                 responseObj.addProperty("bookingId", bookingId);
-                responseObj.addProperty("status", "CONFIRMED");
+                responseObj.addProperty("status", "WAITING LIST");
                 responseObj.addProperty("totalFare", totalFare);
                 responseObj.addProperty("qrVerificationUrl", qr.getVerificationUrl());
                 responseObj.addProperty("qrCodeBase64", qrBase64);
